@@ -1,0 +1,31 @@
+<?php
+include "../config/db.php";
+
+if(!isset($_SESSION['user_id']) || $_SESSION['role'] != 'admin'){
+    header("Location: ../login.php");
+    exit;
+}
+
+$id = $_GET['id'];
+
+$res = mysqli_query($conn,"SELECT * FROM users WHERE id='$id'");
+$user = mysqli_fetch_assoc($res);
+
+include "../includes/header.php";
+?>
+
+<div class="container mt-4">
+<h3>User Details</h3>
+
+<table class="table table-bordered">
+<tr><th>ID</th><td><?= $user['id'] ?></td></tr>
+<tr><th>Name</th><td><?= $user['name'] ?></td></tr>
+<tr><th>Email</th><td><?= $user['email'] ?></td></tr>
+<tr><th>Role</th><td><?= $user['role'] ?></td></tr>
+<tr><th>Joined</th><td><?= $user['created_at'] ?></td></tr>
+</table>
+
+<a href="users.php" class="btn btn-secondary">← Back</a>
+</div>
+
+<?php include "../includes/footer.php"; ?>
